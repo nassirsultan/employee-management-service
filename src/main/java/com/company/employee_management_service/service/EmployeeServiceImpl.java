@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 import com.company.employee_management_service.dto.EmployeeRequest;
 import com.company.employee_management_service.dto.EmployeeResponse;
 import com.company.employee_management_service.exception.DuplicateResourceException;
+import com.company.employee_management_service.exception.ResourceNotFoundException;
 import com.company.employee_management_service.model.Employee;
 import com.company.employee_management_service.repository.EmployeeRepository;
 
@@ -33,16 +34,45 @@ public class EmployeeServiceImpl implements EmployeeService {
 		employee.setRole(request.getRole());
 
 		Employee saved = repository.save(employee);
-		return new EmployeeResponse(saved.getId(), saved.getName(), saved.getEmail(), saved.getDepartment(),
-				saved.getRole());
+		return mapToResponse(saved);
 	}
 
 	@Override
 	public List<EmployeeResponse> getAll() {
 
 		return repository.findAll().stream()
-				.map(e -> new EmployeeResponse(e.getId(), e.getName(), e.getEmail(), e.getDepartment(), e.getRole()))
+				.map(this::mapToResponse)
 				.toList();
+	}
+	
+	public EmployeeResponse getById(Long id) {
+	    Employee employee = repository.findById(id)
+	        .orElseThrow(() ->
+	            new ResourceNotFoundException(
+	                "Employee not found with id " + id
+	            )
+	        );
+	    return mapToResponse(employee);
+	}
+
+	public void delete(Long id) {
+	    Employee employee = repository.findById(id)
+	        .orElseThrow(() ->
+	            new ResourceNotFoundException(
+	                "Employee not found with id " + id
+	            )
+	        );
+	    repository.delete(employee);
+	}
+
+	private EmployeeResponse mapToResponse(Employee employee) {
+	    return new EmployeeResponse(
+	            employee.getId(),
+	            employee.getName(),
+	            employee.getEmail(),
+	            employee.getDepartment(),
+	            employee.getRole()
+	    );
 	}
 
 }
