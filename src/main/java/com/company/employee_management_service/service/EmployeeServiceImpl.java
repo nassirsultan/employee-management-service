@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 
 import com.company.employee_management_service.dto.EmployeeRequest;
 import com.company.employee_management_service.dto.EmployeeResponse;
+import com.company.employee_management_service.exception.DuplicateResourceException;
 import com.company.employee_management_service.model.Employee;
 import com.company.employee_management_service.repository.EmployeeRepository;
 
@@ -18,6 +19,13 @@ public class EmployeeServiceImpl implements EmployeeService {
 
 	@Override
 	public EmployeeResponse create(EmployeeRequest request) {
+		
+		if (repository.existsByEmail(request.getEmail())) {
+	        throw new DuplicateResourceException(
+	            "Employee already exists with email " + request.getEmail()
+	        );
+	    }
+		
 		Employee employee = new Employee();
 		employee.setName(request.getName());
 		employee.setEmail(request.getEmail());
