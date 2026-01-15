@@ -1,7 +1,9 @@
 package com.company.employee_management_service.service;
 
-import java.util.List;
-
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import com.company.employee_management_service.dto.EmployeeRequest;
@@ -38,11 +40,12 @@ public class EmployeeServiceImpl implements EmployeeService {
 	}
 
 	@Override
-	public List<EmployeeResponse> getAll() {
+	public Page<EmployeeResponse> getAll(int page, int size) {
 
-		return repository.findAll().stream()
-				.map(this::mapToResponse)
-				.toList();
+		Pageable pageable = PageRequest.of(page, size, Sort.by("id").descending());
+
+	    return repository.findAll(pageable)
+	            .map(this::mapToResponse);
 	}
 	
 	public EmployeeResponse getById(Long id) {
