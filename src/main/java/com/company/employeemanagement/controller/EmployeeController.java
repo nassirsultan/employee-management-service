@@ -16,6 +16,8 @@ import org.springframework.web.bind.annotation.RestController;
 import com.company.employeemanagement.dto.EmployeeRequest;
 import com.company.employeemanagement.dto.EmployeeResponse;
 import com.company.employeemanagement.service.EmployeeService;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
+
 
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -23,6 +25,7 @@ import lombok.RequiredArgsConstructor;
 @RestController
 @RequestMapping("/api/employees")
 @RequiredArgsConstructor
+@SecurityRequirement(name = "bearerAuth")
 public class EmployeeController {
 
     private final EmployeeService service;
