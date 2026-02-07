@@ -38,16 +38,28 @@ public class EmployeeServiceImpl implements EmployeeService {
 		Employee saved = repository.save(employee);
 		return mapToResponse(saved);
 	}
-
+	
 	@Override
-	public Page<EmployeeResponse> getAll(int page, int size) {
+	public Page<EmployeeResponse> getAll(int page, int size, String department, String role) {
 
 		Pageable pageable = PageRequest.of(page, size, Sort.by("id").descending());
 
-	    return repository.findAll(pageable)
-	            .map(this::mapToResponse);
+		Page<Employee> employees;
+
+		if (department != null && role != null) {
+			employees = repository.findByDepartmentIgnoreCaseAndRoleIgnoreCase(department, role, pageable);
+		} else if (department != null) {
+			employees = repository.findByDepartmentIgnoreCase(department, pageable);
+		} else if (role != null) {
+			employees = repository.findByRoleIgnoreCase(role, pageable);
+		} else {
+			employees = repository.findAll(pageable);
+		}
+
+		return employees.map(this::mapToResponse);
 	}
-	
+
+	@Override
 	public EmployeeResponse getById(Long id) {
 	    Employee employee = repository.findById(id)
 	        .orElseThrow(() ->
@@ -57,7 +69,8 @@ public class EmployeeServiceImpl implements EmployeeService {
 	        );
 	    return mapToResponse(employee);
 	}
-
+	
+	@Override
 	public void delete(Long id) {
 	    Employee employee = repository.findById(id)
 	        .orElseThrow(() ->
@@ -66,6 +79,33 @@ public class EmployeeServiceImpl implements EmployeeService {
 	            )
 	        );
 	    repository.delete(employee);
+	}
+	
+	@Override
+	public EmployeeResponse update(Long id, EmployeeRequest request) {
+
+	    Employee employee = repository.findById(id)
+	        .orElseThrow(() ->
+	            new ResourceNotFoundException(
+	                "Employee not found with id " + id
+	            )
+	        );
+
+	    // optional: email change check
+	    if (!employee.getEmail().equals(request.getEmail())
+	            && repository.existsByEmail(request.getEmail())) {
+	        throw new DuplicateResourceException(
+	            "Employee already exists with email " + request.getEmail()
+	        );
+	    }
+
+	    employee.setName(request.getName());
+	    employee.setEmail(request.getEmail());
+	    employee.setDepartment(request.getDepartment());
+	    employee.setRole(request.getRole());
+
+	    Employee updated = repository.save(employee);
+	    return mapToResponse(updated);
 	}
 
 	private EmployeeResponse mapToResponse(Employee employee) {

@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -32,11 +33,13 @@ public class EmployeeController {
                 .body(service.create(request));
     }
 
-    @GetMapping
-    public Page<EmployeeResponse> getAll(@RequestParam(defaultValue = "0") int page,
-            @RequestParam(defaultValue = "10") int size) {
-        return service.getAll(page, size);
-    }
+	@GetMapping
+	public Page<EmployeeResponse> getAll(@RequestParam(defaultValue = "0") int page,
+			@RequestParam(defaultValue = "10") int size, @RequestParam(required = false) String department,
+			@RequestParam(required = false) String role) {
+
+		return service.getAll(page, size, department, role);
+	}
     
     @GetMapping("/{id}")
     public EmployeeResponse getById(@PathVariable Long id) {
@@ -48,6 +51,15 @@ public class EmployeeController {
         service.delete(id);
         return ResponseEntity.noContent().build(); // 204
     }
+    
+    @PutMapping("/{id}")
+    public EmployeeResponse update(
+            @PathVariable Long id,
+            @Valid @RequestBody EmployeeRequest request) {
+
+        return service.update(id, request);
+    }
+
 
 }
 

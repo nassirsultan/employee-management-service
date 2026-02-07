@@ -7,7 +7,8 @@ import com.company.employee_management_service.dto.EmployeeResponse;
 
 public interface EmployeeService {
 	EmployeeResponse create(EmployeeRequest request);
-	Page<EmployeeResponse> getAll(int page, int size);
+	Page<EmployeeResponse> getAll(int page, int size, String department, String role);
 	EmployeeResponse getById(Long id);
 	void delete(Long id);
+	EmployeeResponse update(Long id, EmployeeRequest request);
 }
