@@ -1,4 +1,4 @@
-package com.company.employee_management_service.service;
+package com.company.employeemanagement.service;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -6,12 +6,12 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
-import com.company.employee_management_service.dto.EmployeeRequest;
-import com.company.employee_management_service.dto.EmployeeResponse;
-import com.company.employee_management_service.exception.DuplicateResourceException;
-import com.company.employee_management_service.exception.ResourceNotFoundException;
-import com.company.employee_management_service.model.Employee;
-import com.company.employee_management_service.repository.EmployeeRepository;
+import com.company.employeemanagement.dto.EmployeeRequest;
+import com.company.employeemanagement.dto.EmployeeResponse;
+import com.company.employeemanagement.exception.DuplicateResourceException;
+import com.company.employeemanagement.exception.ResourceNotFoundException;
+import com.company.employeemanagement.model.Employee;
+import com.company.employeemanagement.repository.EmployeeRepository;
 
 import lombok.RequiredArgsConstructor;
 

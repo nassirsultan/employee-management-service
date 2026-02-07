@@ -1,4 +1,4 @@
-package com.company.employee_management_service.exception;
+package com.company.employeemanagement.exception;
 
 import java.util.HashMap;
 import java.util.Map;

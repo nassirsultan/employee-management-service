@@ -1,9 +1,9 @@
-package com.company.employee_management_service.service;
+package com.company.employeemanagement.service;
 
 import org.springframework.data.domain.Page;
 
-import com.company.employee_management_service.dto.EmployeeRequest;
-import com.company.employee_management_service.dto.EmployeeResponse;
+import com.company.employeemanagement.dto.EmployeeRequest;
+import com.company.employeemanagement.dto.EmployeeResponse;
 
 public interface EmployeeService {
 	EmployeeResponse create(EmployeeRequest request);

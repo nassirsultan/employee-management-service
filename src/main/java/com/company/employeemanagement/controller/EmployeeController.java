@@ -1,4 +1,4 @@
-package com.company.employee_management_service.controller;
+package com.company.employeemanagement.controller;
 
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
@@ -13,9 +13,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.company.employee_management_service.dto.EmployeeRequest;
-import com.company.employee_management_service.dto.EmployeeResponse;
-import com.company.employee_management_service.service.EmployeeService;
+import com.company.employeemanagement.dto.EmployeeRequest;
+import com.company.employeemanagement.dto.EmployeeResponse;
+import com.company.employeemanagement.service.EmployeeService;
 
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
