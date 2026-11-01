@@ -1,20 +1,25 @@
 spring:
   application:
-    name: employee-management-service	
+    name: employee-management-service
   datasource:
-    url: jdbc:mysql://localhost:3306/employee_db
-    username: root
-    password: root
+    url: jdbc:h2:mem:employeedb
+#    driver-class-name: org.h2.Driver. docker compose overrides the url and spring boot will autodetect class name based on url
+    username: sa
+    password: ""
+  h2:
+    console:
+      enabled: true
   jpa:
     hibernate:
       ddl-auto: update
-    database-platform: org.hibernate.dialect.MySQLDialect	
     show-sql: true
     properties:
       hibernate:
         format_sql: true
+
 server:
   port: ${PORT:8080}
+
 management:
   endpoints:
     web:
