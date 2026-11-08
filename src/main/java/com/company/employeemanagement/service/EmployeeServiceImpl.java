@@ -1,5 +1,6 @@
 package com.company.employeemanagement.service;
 
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -60,6 +61,7 @@ public class EmployeeServiceImpl implements EmployeeService {
 	}
 
 	@Override
+	@Cacheable(value = "employee", key = "#id")
 	public EmployeeResponse getById(Long id) {
 	    Employee employee = repository.findById(id)
 	        .orElseThrow(() ->
