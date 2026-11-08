@@ -1,5 +1,6 @@
 package com.company.employeemanagement.service;
 
+import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.CachePut;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
@@ -74,6 +75,7 @@ public class EmployeeServiceImpl implements EmployeeService {
 	}
 	
 	@Override
+	@CacheEvict(value = "employee", key = "#id")
 	public void delete(Long id) {
 	    Employee employee = repository.findById(id)
 	        .orElseThrow(() ->
